@@ -1,47 +1,19 @@
 <?php
-/* PHP wrapper for "Lauren's Lovely Landscapes" app.
- *
- * This script depends on the following code in .htaccess:
- *    <IfModule mod_rewrite.c>
- *        RewriteEngine on
- *        RewriteCond %{REQUEST_FILENAME} !-f
- *        RewriteCond %{REQUEST_FILENAME} !-d
- *        RewriteRule ^ index.php [L]
- *    </IfModule>
- *
- * Place the "static" and "views" directories from 
- * the "Lauren's..." project into the document root along
- * with this script and the above .htaccess file.
- */
+$data = array(
+     "client" => array(
+        "build" => "1.0",
+        "name" => "xxxxxx",
+        "version" => "1.0"
+     ),
+     "protocolVersion" => 4,
+     "data" => array(
+        "distributorId" => "xxxx",
+        "distributorPin" => "xxxx",
+        "locale" => "en-US"
+     )
+)/** whatever you're serializing **/;
 
-include('vars.php');
+header('Content-Type: application/json');
 
-$lll_route = trim("$_SERVER[REQUEST_URI]", "/");
-
-if (file_exists("views/$lll_route.tpl")) {
-	ob_start();
-	require_once("views/$lll_route.tpl");
-	$lllpage = ob_get_contents();
-	ob_end_clean();
-
-	echo $lllpage;
-
-} elseif ($lll_route == "") {
-	ob_start();
-	require_once("views/home.tpl");
-	$lllpage = ob_get_contents();
-	ob_end_clean();
-
-	echo $lllpage;
-
-} else {
-	echo "\"$lll_route\" page not found";
-	ob_start();
-	require_once("views/home.tpl");
-	$lllpage = ob_get_contents();
-	ob_end_clean();
-
-	echo $lllpage;
-}
-
+echo json_encode($data);
 ?>
